@@ -4,7 +4,7 @@
   "description": "Appium Mobile Tests for pdd-project",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/**/*.test.js --timeout 120000"
+    "test": "mocha \"tests/**/*.test.js\" --timeout 120000"
   },
   "dependencies": {
     "exceljs": "^4.4.0"
