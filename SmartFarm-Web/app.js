@@ -57,7 +57,7 @@ const STATE = {
     const w = this.workers.find(w => w.id === id);
     return (w ? w.daily_wage : 0) * this.getPresentDaysCount(id);
   },
-  getTotalPaid(id) { return this.payments.filter(p => p.worker === id).reduce((s, p) => s + p.amount, 0); },
+  getTotalPaid(id) { return this.payments.filter(p => p.worker === id).reduce((s, p) => s + parseFloat(p.amount || 0), 0); },
   getBalanceDue(id) { return this.getTotalEarned(id) - this.getTotalPaid(id); },
   getWorkerById(id) { return this.workers.find(w => w.id === id); },
 };
@@ -138,3 +138,4 @@ function todayISO() { return new Date().toISOString().split('T')[0]; }
 function todayDisplay() {
   return new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
 }
+
