@@ -25,7 +25,7 @@ jobs:
         working-directory: ./web-tests
         run: npm test
       - name: Upload Web Test Reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: web-test-reports
           path: selenium_reports/web_test_results.xlsx
@@ -46,7 +46,7 @@ jobs:
         working-directory: ./mobile-tests
         run: npm test
       - name: Upload Mobile Test Reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mobile-test-reports
           path: appium_reports/mobile_test_results.xlsx
