@@ -1,0 +1,86 @@
+name: E2E and Security Testing Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  selenium-web-tests:
+    name: Selenium Web Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        working-directory: ./web-tests
+        run: npm install
+      - name: Run Web Tests
+        working-directory: ./web-tests
+        run: npm test
+      - name: Upload Web Test Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-test-reports
+          path: selenium_reports/web_test_results.xlsx
+
+  appium-mobile-tests:
+    name: Appium Mobile Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        working-directory: ./mobile-tests
+        run: npm install
+      - name: Run Mobile Tests
+        working-directory: ./mobile-tests
+        run: npm test
+      - name: Upload Mobile Test Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: mobile-test-reports
+          path: appium_reports/mobile_test_results.xlsx
+
+  load-tests:
+    name: Load Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Dummy Load Test
+        run: echo "Running JMeter or k6 load tests..." && sleep 10
+
+  dast-security-tests:
+    name: DAST Security Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Dummy DAST Test
+        run: echo "Running OWASP ZAP security tests..." && sleep 15
+
+  build-and-bundle:
+    name: Build Web App & Bundle Reports
+    needs: [selenium-web-tests, appium-mobile-tests, load-tests, dast-security-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Bundle Reports
+        run: echo "Bundling reports into build folder..."
+
+  deploy:
+    name: Deploy
+    needs: build-and-bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to GitHub Pages
+        run: echo "Deploying..."
