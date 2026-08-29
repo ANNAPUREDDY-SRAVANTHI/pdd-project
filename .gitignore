@@ -1,0 +1,10 @@
+﻿node_modules/
+selenium_reports/
+appium_reports/
+.idea/
+.gradle/
+build/
+local.properties
+venv/
+*.pyc
+__pycache__/
