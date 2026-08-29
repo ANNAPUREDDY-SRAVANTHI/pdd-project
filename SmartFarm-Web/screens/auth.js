@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 //  SPLASH SCREEN
 // ============================================================
 route('/splash', async (el) => {
@@ -49,6 +49,9 @@ route('/login', (el) => {
     role = r;
     el.querySelector('#btnAdmin').classList.toggle('active', r === 'Admin');
     el.querySelector('#btnWorker').classList.toggle('active', r === 'Worker');
+    el.querySelector('#loginUser').value = '';
+    el.querySelector('#loginPass').value = '';
+    el.querySelector('#loginErr').style.display = 'none';
   };
   window.togglePwd = (id, btn) => {
     const inp = el.querySelector('#' + id);
